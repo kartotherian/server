@@ -4,7 +4,8 @@
   "description": "Serves Kartotherian maps",
   "main": "lib/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "preversion": "npm test"
   },
   "repository": "kartotherian/server",
   "keywords": [
@@ -26,5 +27,12 @@
     "@kartotherian/err": "^0.0.3",
     "@kartotherian/input-validator": "^0.0.6",
     "leaflet": "^1.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "@kartotherian/core": "^0.1.1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
