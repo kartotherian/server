@@ -1,5 +1,7 @@
 // Allow user to change style via the ?s=xxx URL parameter
 // Uses "osm-intl" as the default style
+
+var maxZoom;
 var matchStyle = location.search.match(/s=([^&\/]*)/);
 var style = (matchStyle && matchStyle[1]) || 'osm-intl';
 
@@ -23,12 +25,16 @@ var matchScale = location.search.match(/scale=([.0-9]*)/);
 var scale = (matchScale && parseFloat(matchScale[1])) || bracketDevicePixelRatio();
 var scalex = (scale === 1) ? '' : ('@' + scale + 'x');
 
-// Add a map layer
-L.tileLayer(style + '/{z}/{x}/{y}' + scalex + '.png', {
-    maxZoom: 18,
+var layerSettings = {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     id: 'map-01'
-}).addTo(map);
+};
+
+// TODO: Remove backwards-compatibility fallback
+layerSettings.maxZoom = config[style].maxZoom ? config[style].maxZoom : 18;
+
+// Add a map layer
+L.tileLayer(style + '/{z}/{x}/{y}' + scalex + '.png', layerSettings).addTo(map);
 
 // Add a km/miles scale
 L.control.scale().addTo(map);
